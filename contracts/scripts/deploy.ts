@@ -7,19 +7,26 @@ async function main() {
   const [deployer] = await ethers.getSigners();
   console.log("Deploying with:", deployer.address);
   const cUSD = network.name === "celo" ? CUSD_MAINNET : CUSD_ALFAJORES;
+  console.log("Network:", network.name, "| cUSD:", cUSD);
 
   const SokoPoints = await ethers.getContractFactory("SokoPoints");
   const sokoPoints = await SokoPoints.deploy();
   await sokoPoints.waitForDeployment();
-  console.log("SokoPoints deployed to:", await sokoPoints.getAddress());
+  const spAddr = await sokoPoints.getAddress();
+  console.log("SokoPoints deployed to:", spAddr);
 
   const SokoScan = await ethers.getContractFactory("SokoScan");
-  const sokoScan = await SokoScan.deploy(cUSD, await sokoPoints.getAddress());
+  const sokoScan = await SokoScan.deploy(cUSD, spAddr);
   await sokoScan.waitForDeployment();
-  console.log("SokoScan deployed to:", await sokoScan.getAddress());
+  const ssAddr = await sokoScan.getAddress();
+  console.log("SokoScan deployed to:", ssAddr);
 
-  await sokoPoints.setSokoScan(await sokoScan.getAddress());
+  await sokoPoints.setSokoScan(ssAddr);
   console.log("SokoPoints linked to SokoScan.");
+
+  console.log("\n=== Paste into frontend/lib/contracts.ts ===");
+  console.log(`SOKO_SCAN_ADDRESS[${network.name === "celo" ? 42220 : 44787}] = "${ssAddr}"`);
+  console.log(`SOKO_POINTS_ADDRESS[${network.name === "celo" ? 42220 : 44787}] = "${spAddr}"`);
 }
 
 main().catch((e) => { console.error(e); process.exit(1); });

@@ -20,6 +20,11 @@ contract SokoScan is Ownable, ReentrancyGuard {
         uint256 pointsPerCUSD;
     }
 
+    struct LoyaltyRule {
+        uint256 pointsRequired;
+        uint256 discountBPS;
+    }
+
     constructor(address _cUSD, address _sokoPoints) Ownable(msg.sender) {
         cUSD = IERC20(_cUSD);
         sokoPoints = SokoPoints(_sokoPoints);

@@ -25,6 +25,11 @@ contract SokoScan is Ownable, ReentrancyGuard {
         uint256 discountBPS;
     }
 
+    uint256 private _merchantCounter;
+    mapping(address => uint256) public merchantIdByWallet;
+    mapping(uint256 => Merchant) public merchants;
+    mapping(address => bool) public isMerchant;
+
     constructor(address _cUSD, address _sokoPoints) Ownable(msg.sender) {
         cUSD = IERC20(_cUSD);
         sokoPoints = SokoPoints(_sokoPoints);

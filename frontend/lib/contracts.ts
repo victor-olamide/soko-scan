@@ -24,4 +24,14 @@ export const SOKO_SCAN_ABI = [
     inputs: [{ name: "merchantId", type: "uint256" },{ name: "amount", type: "uint256" },{ name: "pointsToRedeem", type: "uint256" }],
     outputs: [],
   },
+  {
+    name: "getMerchant", type: "function", stateMutability: "view",
+    inputs: [{ name: "merchantId", type: "uint256" }],
+    outputs: [{ name: "", type: "tuple", components: [
+      { name: "wallet", type: "address" },{ name: "name", type: "string" },
+      { name: "category", type: "string" },{ name: "active", type: "bool" },
+      { name: "totalReceived", type: "uint256" },{ name: "txCount", type: "uint256" },
+      { name: "pointsPerCUSD", type: "uint256" }
+    ]}],
+  },
 ] as const;

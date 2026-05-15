@@ -14,4 +14,10 @@ describe("SokoPoints", function () {
     expect(await sp.name()).to.equal("SokoPoints");
     expect(await sp.symbol()).to.equal("SOKO");
   });
+
+  it("should allow owner to set sokoScan address", async function () {
+    const { sp, sokoScan } = await deploy();
+    await sp.setSokoScan(sokoScan.address);
+    expect(await sp.sokoScan()).to.equal(sokoScan.address);
+  });
 });

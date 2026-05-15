@@ -133,4 +133,8 @@ contract SokoScan is Ownable, ReentrancyGuard {
     function getMerchant(uint256 merchantId) external view returns (Merchant memory) {
         return merchants[merchantId];
     }
+
+    function getCustomerPoints(address customer, uint256 merchantId) external view returns (uint256) {
+        return customerPoints[customer][merchantId];
+    }
 }

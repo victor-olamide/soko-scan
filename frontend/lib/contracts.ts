@@ -41,6 +41,7 @@ export const SOKO_SCAN_ABI = [
   { name: "deactivateMerchant", type: "function", stateMutability: "nonpayable", inputs: [], outputs: [] },
   { name: "getLoyaltyRules", type: "function", stateMutability: "view", inputs: [{ name: "merchantId", type: "uint256" }], outputs: [{ name: "", type: "tuple[]", components: [{ name: "pointsRequired", type: "uint256" },{ name: "discountBPS", type: "uint256" }] }] },
   { name: "PaymentReceived", type: "event", inputs: [{ name: "merchantId", type: "uint256", indexed: true },{ name: "customer", type: "address", indexed: true },{ name: "amount", type: "uint256", indexed: false },{ name: "pointsIssued", type: "uint256", indexed: false }] },
+  { name: "addLoyaltyRule", type: "function", stateMutability: "nonpayable", inputs: [{ name: "pointsRequired", type: "uint256" },{ name: "discountBPS", type: "uint256" }], outputs: [] },
 ] as const;
 
 export const ERC20_ABI = [

@@ -7,3 +7,8 @@ export const SOKO_SCAN_ADDRESS = {
   42220: "" as `0x${string}`,
   44787: "" as `0x${string}`,
 } as const;
+
+export const SOKO_POINTS_ADDRESS = {
+  42220: "" as `0x${string}`,
+  44787: "" as `0x${string}`,
+} as const;

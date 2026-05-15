@@ -91,5 +91,9 @@ contract SokoScan is Ownable, ReentrancyGuard {
         uint256 finalAmount = amount - discount;
         uint256 platformFee = (finalAmount * PLATFORM_FEE_BPS) / 10000;
         uint256 merchantReceives = finalAmount - platformFee;
+        require(cUSD.transferFrom(msg.sender, address(this), finalAmount), "Payment failed");
+        require(cUSD.transfer(merchant.wallet, merchantReceives), "Merchant transfer failed");
+        merchant.totalReceived += merchantReceives;
+        merchant.txCount += 1;
     }
 }

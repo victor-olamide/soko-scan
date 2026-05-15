@@ -54,13 +54,23 @@ contract SokoScan is Ownable, ReentrancyGuard {
         sokoPoints = SokoPoints(_sokoPoints);
     }
 
-    function registerMerchant(string calldata name,string calldata category,uint256 pointsPerCUSD) external returns (uint256 merchantId) {
+    function registerMerchant(
+        string calldata name,
+        string calldata category,
+        uint256 pointsPerCUSD
+    ) external returns (uint256 merchantId) {
         require(!isMerchant[msg.sender], "Already registered");
         require(bytes(name).length > 0, "Name required");
         require(pointsPerCUSD > 0 && pointsPerCUSD <= 100, "Invalid rate");
+
         merchantId = _merchantCounter++;
-        merchants[merchantId] = Merchant({wallet:msg.sender,name:name,category:category,active:true,totalReceived:0,txCount:0,pointsPerCUSD:pointsPerCUSD});
+        merchants[merchantId] = Merchant({
+            wallet: msg.sender, name: name, category: category,
+            active: true, totalReceived: 0, txCount: 0, pointsPerCUSD: pointsPerCUSD
+        });
         merchantIdByWallet[msg.sender] = merchantId;
         isMerchant[msg.sender] = true;
+
+        emit MerchantRegistered(merchantId, msg.sender, name);
     }
 }

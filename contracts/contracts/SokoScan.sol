@@ -129,4 +129,8 @@ contract SokoScan is Ownable, ReentrancyGuard {
         require(isMerchant[msg.sender], "Not a merchant");
         merchants[merchantIdByWallet[msg.sender]].active = false;
     }
+
+    function getMerchant(uint256 merchantId) external view returns (Merchant memory) {
+        return merchants[merchantId];
+    }
 }

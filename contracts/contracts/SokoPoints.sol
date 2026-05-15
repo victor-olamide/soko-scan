@@ -14,10 +14,12 @@ contract SokoPoints is ERC20, Ownable {
     }
 
     function mint(address to, uint256 amount) external {
+        require(msg.sender == sokoScan, "Only SokoScan");
         _mint(to, amount);
     }
 
     function burn(address from, uint256 amount) external {
+        require(msg.sender == sokoScan, "Only SokoScan");
         _burn(from, amount);
     }
 }

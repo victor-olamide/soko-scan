@@ -10,6 +10,8 @@ async function main() {
 
   const SokoPoints = await ethers.getContractFactory("SokoPoints");
   const sokoPoints = await SokoPoints.deploy();
+  await sokoPoints.waitForDeployment();
+  console.log("SokoPoints deployed to:", await sokoPoints.getAddress());
 }
 
 main().catch((e) => { console.error(e); process.exit(1); });

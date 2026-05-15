@@ -34,4 +34,6 @@ export const SOKO_SCAN_ABI = [
       { name: "pointsPerCUSD", type: "uint256" }
     ]}],
   },
+  { name: "merchantIdByWallet", type: "function", stateMutability: "view", inputs: [{ name: "", type: "address" }], outputs: [{ name: "", type: "uint256" }] },
+  { name: "isMerchant", type: "function", stateMutability: "view", inputs: [{ name: "", type: "address" }], outputs: [{ name: "", type: "bool" }] },
 ] as const;

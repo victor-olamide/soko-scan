@@ -16,6 +16,15 @@ QR-based merchant payment + loyalty system for informal traders on MiniPay.
 ## Setup
 ```bash
 cd contracts && npm install
+cp .env.example .env  # add PRIVATE_KEY
 npm run deploy:alfajores
+# Note both addresses → paste into frontend/lib/contracts.ts
+
 cd frontend && npm install && npm run dev
 ```
+
+## Architecture
+- Celo blockchain (L2) for low gas fees
+- MiniPay wallet for seamless mobile UX
+- On-chain loyalty points via ERC-20 (no backend needed)
+- Platform takes 0.5% fee on each transaction

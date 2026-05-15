@@ -73,4 +73,10 @@ contract SokoScan is Ownable, ReentrancyGuard {
 
         emit MerchantRegistered(merchantId, msg.sender, name);
     }
+
+    function pay(uint256 merchantId,uint256 amount,uint256 pointsToRedeem) external nonReentrant {
+        Merchant storage merchant = merchants[merchantId];
+        require(merchant.active, "Merchant inactive");
+        require(amount > 0, "Amount required");
+    }
 }

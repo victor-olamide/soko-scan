@@ -12,4 +12,8 @@ contract SokoPoints is ERC20, Ownable {
     function setSokoScan(address _sokoScan) external onlyOwner {
         sokoScan = _sokoScan;
     }
+
+    function mint(address to, uint256 amount) external {
+        _mint(to, amount);
+    }
 }

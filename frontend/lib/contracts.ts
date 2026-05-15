@@ -12,3 +12,11 @@ export const SOKO_POINTS_ADDRESS = {
   42220: "" as `0x${string}`,
   44787: "" as `0x${string}`,
 } as const;
+
+export const SOKO_SCAN_ABI = [
+  {
+    name: "registerMerchant", type: "function", stateMutability: "nonpayable",
+    inputs: [{ name: "name", type: "string" },{ name: "category", type: "string" },{ name: "pointsPerCUSD", type: "uint256" }],
+    outputs: [{ name: "merchantId", type: "uint256" }],
+  },
+] as const;

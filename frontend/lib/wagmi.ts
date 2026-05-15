@@ -9,4 +9,5 @@ export const wagmiConfig = createConfig({
     [celo.id]: http("https://forno.celo.org"),
     [celoAlfajores.id]: http("https://alfajores-forno.celo-testnet.org"),
   },
+  ssr: false,
 });

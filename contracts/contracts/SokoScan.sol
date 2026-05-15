@@ -117,4 +117,11 @@ contract SokoScan is Ownable, ReentrancyGuard {
         uint256 merchantId = merchantIdByWallet[msg.sender];
         loyaltyRules[merchantId].push(LoyaltyRule({ pointsRequired: pointsRequired, discountBPS: discountBPS }));
     }
+
+    function updateMerchant(string calldata name, string calldata category) external {
+        require(isMerchant[msg.sender], "Not a merchant");
+        uint256 merchantId = merchantIdByWallet[msg.sender];
+        merchants[merchantId].name = name;
+        merchants[merchantId].category = category;
+    }
 }

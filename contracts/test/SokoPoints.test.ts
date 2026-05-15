@@ -6,6 +6,7 @@ describe("SokoPoints", function () {
     const [owner, sokoScan, user] = await ethers.getSigners();
     const SP = await ethers.getContractFactory("SokoPoints");
     const sp = await SP.deploy();
+    await sp.setSokoScan(sokoScan.address);
     return { sp, owner, sokoScan, user };
   }
 
@@ -17,7 +18,21 @@ describe("SokoPoints", function () {
 
   it("should allow owner to set sokoScan address", async function () {
     const { sp, sokoScan } = await deploy();
-    await sp.setSokoScan(sokoScan.address);
     expect(await sp.sokoScan()).to.equal(sokoScan.address);
+  });
+
+  it("should only allow sokoScan to mint", async function () {
+    const { sp, sokoScan, user } = await deploy();
+    await expect(sp.connect(user).mint(user.address, 100)).to.be.revertedWith("Only SokoScan");
+    await sp.connect(sokoScan).mint(user.address, 100);
+    expect(await sp.balanceOf(user.address)).to.equal(100);
+  });
+
+  it("should only allow sokoScan to burn", async function () {
+    const { sp, sokoScan, user } = await deploy();
+    await sp.connect(sokoScan).mint(user.address, 100);
+    await expect(sp.connect(user).burn(user.address, 50)).to.be.revertedWith("Only SokoScan");
+    await sp.connect(sokoScan).burn(user.address, 50);
+    expect(await sp.balanceOf(user.address)).to.equal(50);
   });
 });

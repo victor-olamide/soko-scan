@@ -17,6 +17,9 @@ async function main() {
   const sokoScan = await SokoScan.deploy(cUSD, await sokoPoints.getAddress());
   await sokoScan.waitForDeployment();
   console.log("SokoScan deployed to:", await sokoScan.getAddress());
+
+  await sokoPoints.setSokoScan(await sokoScan.getAddress());
+  console.log("SokoPoints linked to SokoScan.");
 }
 
 main().catch((e) => { console.error(e); process.exit(1); });

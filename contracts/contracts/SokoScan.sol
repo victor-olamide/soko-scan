@@ -58,5 +58,9 @@ contract SokoScan is Ownable, ReentrancyGuard {
         require(!isMerchant[msg.sender], "Already registered");
         require(bytes(name).length > 0, "Name required");
         require(pointsPerCUSD > 0 && pointsPerCUSD <= 100, "Invalid rate");
+        merchantId = _merchantCounter++;
+        merchants[merchantId] = Merchant({wallet:msg.sender,name:name,category:category,active:true,totalReceived:0,txCount:0,pointsPerCUSD:pointsPerCUSD});
+        merchantIdByWallet[msg.sender] = merchantId;
+        isMerchant[msg.sender] = true;
     }
 }

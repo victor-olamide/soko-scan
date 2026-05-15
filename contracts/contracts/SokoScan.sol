@@ -78,5 +78,12 @@ contract SokoScan is Ownable, ReentrancyGuard {
         Merchant storage merchant = merchants[merchantId];
         require(merchant.active, "Merchant inactive");
         require(amount > 0, "Amount required");
+        uint256 discount = 0;
+        if (pointsToRedeem > 0) {
+            uint256 userPoints = customerPoints[msg.sender][merchantId];
+            require(userPoints >= pointsToRedeem, "Insufficient points");
+            discount = pointsToRedeem * 1e15;
+            if (discount > amount) discount = amount;
+        }
     }
 }

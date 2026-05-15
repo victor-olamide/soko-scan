@@ -7,6 +7,9 @@ async function main() {
   const [deployer] = await ethers.getSigners();
   console.log("Deploying with:", deployer.address);
   const cUSD = network.name === "celo" ? CUSD_MAINNET : CUSD_ALFAJORES;
+
+  const SokoPoints = await ethers.getContractFactory("SokoPoints");
+  const sokoPoints = await SokoPoints.deploy();
 }
 
 main().catch((e) => { console.error(e); process.exit(1); });

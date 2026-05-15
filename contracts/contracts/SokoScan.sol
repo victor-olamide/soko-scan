@@ -103,7 +103,7 @@ contract SokoScan is Ownable, ReentrancyGuard {
         merchant.totalReceived += merchantReceives;
         merchant.txCount += 1;
 
-        uint256 pointsIssued = (finalAmount / 1e18) * merchant.pointsPerCUSD;
+        uint256 pointsIssued = (finalAmount * merchant.pointsPerCUSD) / 1e18;
         if (pointsIssued > 0) {
             customerPoints[msg.sender][merchantId] += pointsIssued;
             sokoPoints.mint(msg.sender, pointsIssued);

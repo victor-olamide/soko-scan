@@ -5,5 +5,7 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract SokoPoints is ERC20, Ownable {
+    address public sokoScan;
+
     constructor() ERC20("SokoPoints", "SOKO") Ownable(msg.sender) {}
 }

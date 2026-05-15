@@ -55,5 +55,8 @@ contract SokoScan is Ownable, ReentrancyGuard {
     }
 
     function registerMerchant(string calldata name,string calldata category,uint256 pointsPerCUSD) external returns (uint256 merchantId) {
+        require(!isMerchant[msg.sender], "Already registered");
+        require(bytes(name).length > 0, "Name required");
+        require(pointsPerCUSD > 0 && pointsPerCUSD <= 100, "Invalid rate");
     }
 }

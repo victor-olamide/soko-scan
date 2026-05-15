@@ -53,4 +53,7 @@ contract SokoScan is Ownable, ReentrancyGuard {
         cUSD = IERC20(_cUSD);
         sokoPoints = SokoPoints(_sokoPoints);
     }
+
+    function registerMerchant(string calldata name,string calldata category,uint256 pointsPerCUSD) external returns (uint256 merchantId) {
+    }
 }

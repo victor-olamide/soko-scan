@@ -4,12 +4,12 @@ export const CUSD_ADDRESS = {
 } as const;
 
 export const SOKO_SCAN_ADDRESS = {
-  42220: "" as `0x${string}`,
+  42220: "0x95F3d1fd127813109db55a1ca547e2823406ea94" as `0x${string}`,
   44787: "" as `0x${string}`,
 } as const;
 
 export const SOKO_POINTS_ADDRESS = {
-  42220: "" as `0x${string}`,
+  42220: "0xc6bC20a3f5a14B3F46dCDbFEb44296693110f97d" as `0x${string}`,
   44787: "" as `0x${string}`,
 } as const;
 

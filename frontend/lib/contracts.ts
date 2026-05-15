@@ -19,4 +19,9 @@ export const SOKO_SCAN_ABI = [
     inputs: [{ name: "name", type: "string" },{ name: "category", type: "string" },{ name: "pointsPerCUSD", type: "uint256" }],
     outputs: [{ name: "merchantId", type: "uint256" }],
   },
+  {
+    name: "pay", type: "function", stateMutability: "nonpayable",
+    inputs: [{ name: "merchantId", type: "uint256" },{ name: "amount", type: "uint256" },{ name: "pointsToRedeem", type: "uint256" }],
+    outputs: [],
+  },
 ] as const;

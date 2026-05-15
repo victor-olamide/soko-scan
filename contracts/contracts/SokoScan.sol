@@ -36,6 +36,18 @@ contract SokoScan is Ownable, ReentrancyGuard {
     uint256 public constant PLATFORM_FEE_BPS = 50;
 
     event MerchantRegistered(uint256 indexed merchantId, address indexed wallet, string name);
+    event PaymentReceived(
+        uint256 indexed merchantId,
+        address indexed customer,
+        uint256 amount,
+        uint256 pointsIssued
+    );
+    event PointsRedeemed(
+        uint256 indexed merchantId,
+        address indexed customer,
+        uint256 pointsBurned,
+        uint256 discount
+    );
 
     constructor(address _cUSD, address _sokoPoints) Ownable(msg.sender) {
         cUSD = IERC20(_cUSD);

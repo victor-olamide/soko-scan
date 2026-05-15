@@ -38,4 +38,11 @@ export const SOKO_SCAN_ABI = [
   { name: "isMerchant", type: "function", stateMutability: "view", inputs: [{ name: "", type: "address" }], outputs: [{ name: "", type: "bool" }] },
   { name: "getCustomerPoints", type: "function", stateMutability: "view", inputs: [{ name: "customer", type: "address" },{ name: "merchantId", type: "uint256" }], outputs: [{ name: "", type: "uint256" }] },
   { name: "updateMerchant", type: "function", stateMutability: "nonpayable", inputs: [{ name: "name", type: "string" },{ name: "category", type: "string" }], outputs: [] },
+  { name: "PaymentReceived", type: "event", inputs: [{ name: "merchantId", type: "uint256", indexed: true },{ name: "customer", type: "address", indexed: true },{ name: "amount", type: "uint256", indexed: false },{ name: "pointsIssued", type: "uint256", indexed: false }] },
+] as const;
+
+export const ERC20_ABI = [
+  { name: "approve", type: "function", stateMutability: "nonpayable", inputs: [{ name: "spender", type: "address" },{ name: "amount", type: "uint256" }], outputs: [{ name: "", type: "bool" }] },
+  { name: "allowance", type: "function", stateMutability: "view", inputs: [{ name: "owner", type: "address" },{ name: "spender", type: "address" }], outputs: [{ name: "", type: "uint256" }] },
+  { name: "balanceOf", type: "function", stateMutability: "view", inputs: [{ name: "account", type: "address" }], outputs: [{ name: "", type: "uint256" }] },
 ] as const;

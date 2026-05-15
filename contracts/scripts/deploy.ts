@@ -12,6 +12,11 @@ async function main() {
   const sokoPoints = await SokoPoints.deploy();
   await sokoPoints.waitForDeployment();
   console.log("SokoPoints deployed to:", await sokoPoints.getAddress());
+
+  const SokoScan = await ethers.getContractFactory("SokoScan");
+  const sokoScan = await SokoScan.deploy(cUSD, await sokoPoints.getAddress());
+  await sokoScan.waitForDeployment();
+  console.log("SokoScan deployed to:", await sokoScan.getAddress());
 }
 
 main().catch((e) => { console.error(e); process.exit(1); });

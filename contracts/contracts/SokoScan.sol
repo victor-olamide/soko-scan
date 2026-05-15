@@ -84,6 +84,9 @@ contract SokoScan is Ownable, ReentrancyGuard {
             require(userPoints >= pointsToRedeem, "Insufficient points");
             discount = pointsToRedeem * 1e15;
             if (discount > amount) discount = amount;
+            customerPoints[msg.sender][merchantId] -= pointsToRedeem;
+            sokoPoints.burn(msg.sender, pointsToRedeem);
+            emit PointsRedeemed(merchantId, msg.sender, pointsToRedeem, discount);
         }
     }
 }

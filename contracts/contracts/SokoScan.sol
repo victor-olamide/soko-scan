@@ -88,5 +88,8 @@ contract SokoScan is Ownable, ReentrancyGuard {
             sokoPoints.burn(msg.sender, pointsToRedeem);
             emit PointsRedeemed(merchantId, msg.sender, pointsToRedeem, discount);
         }
+        uint256 finalAmount = amount - discount;
+        uint256 platformFee = (finalAmount * PLATFORM_FEE_BPS) / 10000;
+        uint256 merchantReceives = finalAmount - platformFee;
     }
 }

@@ -74,10 +74,15 @@ contract SokoScan is Ownable, ReentrancyGuard {
         emit MerchantRegistered(merchantId, msg.sender, name);
     }
 
-    function pay(uint256 merchantId,uint256 amount,uint256 pointsToRedeem) external nonReentrant {
+    function pay(
+        uint256 merchantId,
+        uint256 amount,
+        uint256 pointsToRedeem
+    ) external nonReentrant {
         Merchant storage merchant = merchants[merchantId];
         require(merchant.active, "Merchant inactive");
         require(amount > 0, "Amount required");
+
         uint256 discount = 0;
         if (pointsToRedeem > 0) {
             uint256 userPoints = customerPoints[msg.sender][merchantId];
@@ -88,12 +93,22 @@ contract SokoScan is Ownable, ReentrancyGuard {
             sokoPoints.burn(msg.sender, pointsToRedeem);
             emit PointsRedeemed(merchantId, msg.sender, pointsToRedeem, discount);
         }
+
         uint256 finalAmount = amount - discount;
         uint256 platformFee = (finalAmount * PLATFORM_FEE_BPS) / 10000;
         uint256 merchantReceives = finalAmount - platformFee;
+
         require(cUSD.transferFrom(msg.sender, address(this), finalAmount), "Payment failed");
         require(cUSD.transfer(merchant.wallet, merchantReceives), "Merchant transfer failed");
         merchant.totalReceived += merchantReceives;
         merchant.txCount += 1;
+
+        uint256 pointsIssued = (finalAmount / 1e18) * merchant.pointsPerCUSD;
+        if (pointsIssued > 0) {
+            customerPoints[msg.sender][merchantId] += pointsIssued;
+            sokoPoints.mint(msg.sender, pointsIssued);
+        }
+
+        emit PaymentReceived(merchantId, msg.sender, finalAmount, pointsIssued);
     }
 }

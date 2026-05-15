@@ -137,4 +137,13 @@ contract SokoScan is Ownable, ReentrancyGuard {
     function getCustomerPoints(address customer, uint256 merchantId) external view returns (uint256) {
         return customerPoints[customer][merchantId];
     }
+
+    function getLoyaltyRules(uint256 merchantId) external view returns (LoyaltyRule[] memory) {
+        return loyaltyRules[merchantId];
+    }
+
+    function withdrawFees() external onlyOwner {
+        uint256 balance = cUSD.balanceOf(address(this));
+        require(cUSD.transfer(owner(), balance), "Withdraw failed");
+    }
 }

@@ -38,6 +38,8 @@ export const SOKO_SCAN_ABI = [
   { name: "isMerchant", type: "function", stateMutability: "view", inputs: [{ name: "", type: "address" }], outputs: [{ name: "", type: "bool" }] },
   { name: "getCustomerPoints", type: "function", stateMutability: "view", inputs: [{ name: "customer", type: "address" },{ name: "merchantId", type: "uint256" }], outputs: [{ name: "", type: "uint256" }] },
   { name: "updateMerchant", type: "function", stateMutability: "nonpayable", inputs: [{ name: "name", type: "string" },{ name: "category", type: "string" }], outputs: [] },
+  { name: "deactivateMerchant", type: "function", stateMutability: "nonpayable", inputs: [], outputs: [] },
+  { name: "getLoyaltyRules", type: "function", stateMutability: "view", inputs: [{ name: "merchantId", type: "uint256" }], outputs: [{ name: "", type: "tuple[]", components: [{ name: "pointsRequired", type: "uint256" },{ name: "discountBPS", type: "uint256" }] }] },
   { name: "PaymentReceived", type: "event", inputs: [{ name: "merchantId", type: "uint256", indexed: true },{ name: "customer", type: "address", indexed: true },{ name: "amount", type: "uint256", indexed: false },{ name: "pointsIssued", type: "uint256", indexed: false }] },
 ] as const;
 

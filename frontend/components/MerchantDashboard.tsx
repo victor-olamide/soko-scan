@@ -1,5 +1,5 @@
 "use client";
-import { useAccount, useChainId, useReadContract } from "wagmi";
+import { useAccount, useChainId, useReadContract, useWriteContract } from "wagmi";
 import { formatUnits } from "viem";
 import { SOKO_SCAN_ADDRESS, SOKO_SCAN_ABI } from "@/lib/contracts";
 function StatCard({ label, value }: { label: string; value: string }) {

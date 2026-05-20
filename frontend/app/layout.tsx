@@ -18,6 +18,8 @@ export const metadata: Metadata = {
   },
   applicationName: "SokoScan",
   keywords: ["celo", "minipay", "payments", "loyalty", "cusd", "merchant"],
+  manifest: "/manifest.json",
+  appleWebApp: { capable: true, statusBarStyle: "default", title: "SokoScan" },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

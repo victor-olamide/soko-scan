@@ -1,0 +1,12 @@
+{
+  "name": "SokoScan",
+  "short_name": "SokoScan",
+  "description": "Accept cUSD payments. Reward loyal customers.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#b45309",
+  "icons": [
+    { "src": "/favicon.ico", "sizes": "any", "type": "image/x-icon" }
+  ]
+}

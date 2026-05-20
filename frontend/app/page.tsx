@@ -8,6 +8,7 @@ import PaymentQR from "@/components/PaymentQR";
 import CustomerView from "@/components/CustomerView";
 import PlatformStats from "@/components/PlatformStats";
 import NetworkGuard from "@/components/NetworkGuard";
+import AppFooter from "@/components/AppFooter";
 import { truncateAddress } from "@/lib/format";
 type Mode = "merchant"|"customer";
 
@@ -50,6 +51,7 @@ export default function Home() {
       <div className="flex bg-white rounded-xl p-1 shadow-sm mb-5 gap-1">{(["merchant","customer"] as Mode[]).map((m)=>(<button key={m} onClick={()=>setMode(m)} className={`flex-1 py-2 text-xs font-medium rounded-lg capitalize transition-colors ${mode===m?"bg-amber-600 text-white":"text-gray-500"}`}>{m==="merchant"?"I'm a Merchant":"I'm a Customer"}</button>))}</div>
       {mode==="merchant" && !isLoading && (<>{isMerchant ? (<><PaymentQR /><div className="mt-4"><MerchantDashboard /></div></>) : <MerchantRegister />}</>)}
       {mode==="customer" && <CustomerView />}
+      <AppFooter />
     </div>
   );
 }

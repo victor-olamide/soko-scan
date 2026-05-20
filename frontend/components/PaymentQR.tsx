@@ -2,6 +2,7 @@
 import { useAccount, useChainId, useReadContract } from "wagmi";
 import { useState } from "react";
 import { SOKO_SCAN_ADDRESS, SOKO_SCAN_ABI } from "@/lib/contracts";
+import { categoryIcon } from "@/lib/categories";
 export default function PaymentQR() {
   const { address } = useAccount();
   const chainId = useChainId() as 42220|44787;
@@ -15,7 +16,7 @@ export default function PaymentQR() {
   function copyLink() { navigator.clipboard.writeText(payUrl); setCopied(true); setTimeout(()=>setCopied(false),2000); }
   return (
     <div className="bg-white rounded-2xl p-5 shadow-sm text-center">
-      <p className="font-semibold text-gray-800 mb-1">{merchant.name}</p>
+      <p className="font-semibold text-gray-800 mb-1">{categoryIcon(merchant.category)} {merchant.name}</p>
       <p className="text-xs text-amber-600 mb-4">{merchant.category}</p>
       <div className="flex justify-center mb-4">
         {/* eslint-disable-next-line @next/next/no-img-element */}

@@ -2,13 +2,15 @@
 import { useState } from "react";
 import { useAccount, useChainId, useReadContract, useWriteContract, useWaitForTransactionReceipt } from "wagmi";
 import { parseUnits, formatUnits } from "viem";
+import { useSearchParams } from "next/navigation";
 import { SOKO_SCAN_ADDRESS, SOKO_SCAN_ABI, CUSD_ADDRESS, ERC20_ABI } from "@/lib/contracts";
 export default function CustomerView() {
   const { address } = useAccount();
   const chainId = useChainId() as 42220|44787;
   const contractAddress = SOKO_SCAN_ADDRESS[chainId];
   const cUSD = CUSD_ADDRESS[chainId] as `0x${string}`;
-  const [merchantId,setMerchantId]=useState("");
+  const params = useSearchParams();
+  const [merchantId,setMerchantId]=useState(params?.get("merchant")??"");
   const [amount,setAmount]=useState("");
   const [pointsToRedeem,setPointsToRedeem]=useState("0");
   const mId = merchantId ? BigInt(merchantId) : undefined;

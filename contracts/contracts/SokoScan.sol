@@ -6,10 +6,15 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
 import "./SokoPoints.sol";
 
+/// @title SokoScan
+/// @notice Merchant registry, cUSD payment processor, and loyalty points engine.
+/// @dev Merchants register once and receive a numeric ID. Customers pay by ID
+///      and earn SokoPoints. Platform takes a 0.5% fee on each transaction.
 contract SokoScan is Ownable, ReentrancyGuard {
     IERC20 public immutable cUSD;
     SokoPoints public immutable sokoPoints;
 
+    /// @notice Full merchant profile stored on-chain.
     struct Merchant {
         address wallet;
         string name;
@@ -20,6 +25,7 @@ contract SokoScan is Ownable, ReentrancyGuard {
         uint256 pointsPerCUSD;
     }
 
+    /// @notice A reward tier: spend pointsRequired points, get discountBPS basis-point discount.
     struct LoyaltyRule {
         uint256 pointsRequired;
         uint256 discountBPS;
@@ -33,6 +39,7 @@ contract SokoScan is Ownable, ReentrancyGuard {
     mapping(uint256 => LoyaltyRule[]) public loyaltyRules;
     mapping(address => mapping(uint256 => uint256)) public customerPoints;
 
+    /// @notice Platform fee in basis points (50 = 0.5%).
     uint256 public constant PLATFORM_FEE_BPS = 50;
 
     event MerchantRegistered(uint256 indexed merchantId, address indexed wallet, string name);
@@ -48,12 +55,18 @@ contract SokoScan is Ownable, ReentrancyGuard {
         uint256 pointsBurned,
         uint256 discount
     );
+    event MerchantUpdated(uint256 indexed merchantId, string name, string category);
+    event MerchantDeactivated(uint256 indexed merchantId);
 
     constructor(address _cUSD, address _sokoPoints) Ownable(msg.sender) {
         cUSD = IERC20(_cUSD);
         sokoPoints = SokoPoints(_sokoPoints);
     }
 
+    /// @notice Register a new merchant. Caller must not already be registered.
+    /// @param name Business display name.
+    /// @param category Business category string.
+    /// @param pointsPerCUSD How many SokoPoints a customer earns per whole cUSD paid.
     function registerMerchant(
         string calldata name,
         string calldata category,
@@ -74,6 +87,10 @@ contract SokoScan is Ownable, ReentrancyGuard {
         emit MerchantRegistered(merchantId, msg.sender, name);
     }
 
+    /// @notice Pay a merchant in cUSD, optionally redeeming SokoPoints for a discount.
+    /// @param merchantId Merchant to pay.
+    /// @param amount Full gross amount in wei (18 decimals).
+    /// @param pointsToRedeem Number of SokoPoints to burn for a discount.
     function pay(
         uint256 merchantId,
         uint256 amount,
@@ -112,36 +129,51 @@ contract SokoScan is Ownable, ReentrancyGuard {
         emit PaymentReceived(merchantId, msg.sender, finalAmount, pointsIssued);
     }
 
+    /// @notice Add a loyalty reward rule for the calling merchant.
     function addLoyaltyRule(uint256 pointsRequired, uint256 discountBPS) external {
         require(isMerchant[msg.sender], "Not a merchant");
         uint256 merchantId = merchantIdByWallet[msg.sender];
         loyaltyRules[merchantId].push(LoyaltyRule({ pointsRequired: pointsRequired, discountBPS: discountBPS }));
     }
 
+    /// @notice Update the display name and category of the calling merchant.
     function updateMerchant(string calldata name, string calldata category) external {
         require(isMerchant[msg.sender], "Not a merchant");
         uint256 merchantId = merchantIdByWallet[msg.sender];
         merchants[merchantId].name = name;
         merchants[merchantId].category = category;
+        emit MerchantUpdated(merchantId, name, category);
     }
 
+    /// @notice Deactivate the calling merchant's account (irreversible).
     function deactivateMerchant() external {
         require(isMerchant[msg.sender], "Not a merchant");
-        merchants[merchantIdByWallet[msg.sender]].active = false;
+        uint256 merchantId = merchantIdByWallet[msg.sender];
+        merchants[merchantId].active = false;
+        emit MerchantDeactivated(merchantId);
     }
 
+    /// @notice Returns full profile for a merchant by ID.
     function getMerchant(uint256 merchantId) external view returns (Merchant memory) {
         return merchants[merchantId];
     }
 
+    /// @notice Returns accumulated SokoPoints a customer holds at a specific merchant.
     function getCustomerPoints(address customer, uint256 merchantId) external view returns (uint256) {
         return customerPoints[customer][merchantId];
     }
 
+    /// @notice Returns all loyalty rules set by a merchant.
     function getLoyaltyRules(uint256 merchantId) external view returns (LoyaltyRule[] memory) {
         return loyaltyRules[merchantId];
     }
 
+    /// @notice Returns total number of merchants ever registered.
+    function totalMerchants() external view returns (uint256) {
+        return _merchantCounter;
+    }
+
+    /// @notice Withdraws accumulated platform fees to owner wallet.
     function withdrawFees() external onlyOwner {
         uint256 balance = cUSD.balanceOf(address(this));
         require(cUSD.transfer(owner(), balance), "Withdraw failed");

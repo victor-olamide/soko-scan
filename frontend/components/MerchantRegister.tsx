@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { useChainId, useWriteContract, useWaitForTransactionReceipt } from "wagmi";
 import { SOKO_SCAN_ADDRESS, SOKO_SCAN_ABI } from "@/lib/contracts";
+import TxPending from "@/components/TxPending";
 const CATEGORIES = ["Food & Drinks","Clothing","Electronics","Services","Groceries","Other"];
 export default function MerchantRegister() {
   const chainId = useChainId() as 42220|44787;
@@ -20,7 +21,8 @@ export default function MerchantRegister() {
       <div><label className="block text-xs font-medium text-gray-600 mb-1">Category</label><select value={category} onChange={(e)=>setCategory(e.target.value)} className="w-full border border-gray-200 rounded-xl px-3 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500">{CATEGORIES.map((cat)=><option key={cat}>{cat}</option>)}</select></div>
       <div><label className="block text-xs font-medium text-gray-600 mb-1">Points per cUSD spent</label><input value={points} onChange={(e)=>setPoints(e.target.value)} type="number" min="1" max="100" className="w-full border border-gray-200 rounded-xl px-3 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500" /><p className="text-xs text-gray-400 mt-1">Customer earns {points} pts per 1 cUSD paid. 100 pts = 0.10 cUSD discount.</p></div>
       <p className="text-xs text-gray-400">Platform takes a 0.5% fee per transaction. No monthly charges.</p>
-      <button onClick={()=>contractAddress&&writeContract({address:contractAddress,abi:SOKO_SCAN_ABI,functionName:"registerMerchant",args:[name,category,BigInt(points)]})} disabled={!name||isPending||!contractAddress} className="w-full py-3 bg-amber-600 text-white rounded-xl font-semibold disabled:opacity-50 active:scale-95 transition-transform">{isPending?"Registering...":"Register Business"}</button>
+      {tx && isPending && <TxPending hash={tx} label="Registering on Celo..." />}
+      <button onClick={()=>contractAddress&&writeContract({address:contractAddress,abi:SOKO_SCAN_ABI,functionName:"registerMerchant",args:[name,category,BigInt(points)]})} disabled={!name||isPending||!contractAddress} className="w-full py-3 bg-amber-600 text-white rounded-xl font-semibold disabled:opacity-50 active:scale-95 transition-transform">{isPending?"Confirming...":"Register Business"}</button>
     </div>
   );
 }

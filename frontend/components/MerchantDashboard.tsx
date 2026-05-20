@@ -15,8 +15,13 @@ export default function MerchantDashboard() {
   const { data: loyaltyRules } = useReadContract({ address: contractAddress, abi: SOKO_SCAN_ABI, functionName: "getLoyaltyRules", args: merchantId !== undefined ? [merchantId] : undefined });
   const [rulePoints, setRulePoints] = useState("");
   const [ruleDiscount, setRuleDiscount] = useState("");
+  const [editName, setEditName] = useState("");
+  const [editCat, setEditCat] = useState("");
+  const [showEdit, setShowEdit] = useState(false);
   const { writeContract: addRule, data: ruleTx } = useWriteContract();
+  const { writeContract: updateMerchant, data: updateTx } = useWriteContract();
   const { isSuccess: ruleAdded } = useWaitForTransactionReceipt({ hash: ruleTx });
+  const { isSuccess: updated } = useWaitForTransactionReceipt({ hash: updateTx });
   if (!merchant) return null;
   const totalCUSD = Number(formatUnits(merchant.totalReceived, 18)).toFixed(2);
   const txCount = Number(merchant.txCount);
@@ -31,6 +36,11 @@ export default function MerchantDashboard() {
         <StatCard label="Points rate" value={`${merchant.pointsPerCUSD} pts/cUSD`} />
         <StatCard label="Status" value={merchant.active ? "Active" : "Inactive"} />
         <StatCard label="Merchant ID" value={`#${merchantId?.toString()}`} />
+      </div>
+      <div className="bg-white rounded-2xl p-4 shadow-sm space-y-3">
+        <div className="flex items-center justify-between"><p className="font-semibold text-gray-800 text-sm">Business Settings</p><button onClick={()=>{ setEditName(merchant.name); setEditCat(merchant.category); setShowEdit(v=>!v); }} className="text-xs text-amber-600">Edit</button></div>
+        {showEdit && !updated && <div className="space-y-2"><input value={editName} onChange={e=>setEditName(e.target.value)} placeholder="Business name" className="w-full border border-gray-200 rounded-xl px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-amber-500" /><input value={editCat} onChange={e=>setEditCat(e.target.value)} placeholder="Category" className="w-full border border-gray-200 rounded-xl px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-amber-500" /><button onClick={()=>contractAddress&&editName&&updateMerchant({address:contractAddress,abi:SOKO_SCAN_ABI,functionName:"updateMerchant",args:[editName,editCat]})} disabled={!editName} className="w-full py-2 bg-amber-600 text-white rounded-xl text-xs disabled:opacity-50">Save changes</button></div>}
+        {updated && <p className="text-xs text-amber-600">Profile updated!</p>}
       </div>
       <div className="bg-white rounded-2xl p-4 shadow-sm space-y-3">
         <p className="font-semibold text-gray-800 text-sm">Loyalty Rules</p>

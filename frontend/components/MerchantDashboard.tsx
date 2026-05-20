@@ -22,7 +22,7 @@ export default function MerchantDashboard() {
   const { writeContract: updateMerchant, data: updateTx } = useWriteContract();
   const { isSuccess: ruleAdded } = useWaitForTransactionReceipt({ hash: ruleTx });
   const { isSuccess: updated } = useWaitForTransactionReceipt({ hash: updateTx });
-  if (!merchant) return null;
+  if (!merchant) return <div className="space-y-3">{[1,2,3].map(i=><div key={i} className="h-16 bg-white rounded-2xl animate-pulse shadow-sm" />)}</div>;
   const totalCUSD = Number(formatUnits(merchant.totalReceived, 18)).toFixed(2);
   const txCount = Number(merchant.txCount);
   const avgTx = txCount > 0 ? (Number(formatUnits(merchant.totalReceived, 18)) / txCount).toFixed(2) : "0.00";

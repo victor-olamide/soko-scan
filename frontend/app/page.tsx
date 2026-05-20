@@ -49,6 +49,7 @@ export default function Home() {
       <header className="pt-6 pb-4 flex items-start justify-between"><div><h1 className="text-2xl font-bold text-amber-700">SokoScan</h1><p className="text-xs text-gray-400">Merchant payments + loyalty on Celo</p></div>{address&&<span className="text-xs text-gray-400 font-mono mt-1">{truncateAddress(address)}</span>}</header>
       <PlatformStats />
       <div className="flex bg-white rounded-xl p-1 shadow-sm mb-5 gap-1">{(["merchant","customer"] as Mode[]).map((m)=>(<button key={m} onClick={()=>setMode(m)} className={`flex-1 py-2 text-xs font-medium rounded-lg capitalize transition-colors ${mode===m?"bg-amber-600 text-white":"text-gray-500"}`}>{m==="merchant"?"I'm a Merchant":"I'm a Customer"}</button>))}</div>
+      {mode==="merchant" && isLoading && <div className="space-y-3">{[1,2].map(i=><div key={i} className="h-24 bg-white rounded-2xl animate-pulse shadow-sm" />)}</div>}
       {mode==="merchant" && !isLoading && (<>{isMerchant ? (<><PaymentQR /><div className="mt-4"><MerchantDashboard /></div></>) : <MerchantRegister />}</>)}
       {mode==="customer" && <CustomerView />}
       <AppFooter />

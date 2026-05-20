@@ -23,7 +23,10 @@ export default function PaymentQR() {
       </div>
       <p className="text-xs text-gray-400 mb-1">Merchant ID: <span className="font-mono text-gray-600">#{merchantId?.toString()}</span></p>
       <p className="text-xs text-gray-400 mb-3">Customer scans to pay. They earn {merchant.pointsPerCUSD.toString()} SokoPoints per cUSD.</p>
-      <button onClick={copyLink} className="w-full py-2.5 border border-amber-500 text-amber-700 rounded-xl text-sm font-medium">{copied?"Copied!":"Copy payment link"}</button>
+      <div className="flex gap-2">
+        <button onClick={copyLink} className="flex-1 py-2.5 border border-amber-500 text-amber-700 rounded-xl text-sm font-medium">{copied?"Copied!":"Copy link"}</button>
+        <a href={`https://celoscan.io/address/${merchant.wallet}`} target="_blank" rel="noopener noreferrer" className="py-2.5 px-3 border border-gray-200 text-gray-500 rounded-xl text-sm">Celoscan</a>
+      </div>
     </div>
   );
 }

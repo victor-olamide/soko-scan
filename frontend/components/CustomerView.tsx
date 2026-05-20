@@ -36,6 +36,7 @@ export default function CustomerView() {
       <p className="font-semibold text-amber-700 text-lg">Payment sent!</p>
       <p className="text-xs text-gray-500">You earned <span className="font-medium text-amber-600">{pointsEarned} SokoPoints</span> at {merchant?.name}.</p>
       <p className="text-xs text-gray-400">1 SokoPoint = 0.001 cUSD off your next purchase.</p>
+      <button onClick={()=>{ window.location.reload(); }} className="mt-2 text-xs text-amber-600 underline">Make another payment</button>
     </div>
   );
   return (

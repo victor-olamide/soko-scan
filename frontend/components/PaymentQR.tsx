@@ -21,6 +21,7 @@ export default function PaymentQR() {
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src={qrSrc} alt="Payment QR" className="rounded-xl w-48 h-48" />
       </div>
+      <p className="text-xs text-gray-400 mb-1">Merchant ID: <span className="font-mono text-gray-600">#{merchantId?.toString()}</span></p>
       <p className="text-xs text-gray-400 mb-3">Customer scans to pay. They earn {merchant.pointsPerCUSD.toString()} SokoPoints per cUSD.</p>
       <button onClick={copyLink} className="w-full py-2.5 border border-amber-500 text-amber-700 rounded-xl text-sm font-medium">{copied?"Copied!":"Copy payment link"}</button>
     </div>

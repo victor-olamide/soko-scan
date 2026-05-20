@@ -28,7 +28,7 @@ export default function MerchantDashboard() {
   const avgTx = txCount > 0 ? (Number(formatUnits(merchant.totalReceived, 18)) / txCount).toFixed(2) : "0.00";
   return (
     <div className="space-y-3">
-      <h2 className="font-semibold text-gray-800">Sales Overview</h2>
+      <div className="flex items-center justify-between"><h2 className="font-semibold text-gray-800">Sales Overview</h2><a href={`https://celoscan.io/address/${address}`} target="_blank" rel="noopener noreferrer" className="text-xs text-gray-400 hover:text-amber-600 transition-colors">View on Celoscan ↗</a></div>
       <div className="grid grid-cols-2 gap-3">
         <StatCard label="Total earned" value={`${totalCUSD} cUSD`} />
         <StatCard label="Transactions" value={merchant.txCount.toString()} />

@@ -11,7 +11,7 @@ export default function MerchantRegister() {
   const [points,setPoints]=useState("10");
   const { writeContract, data: tx, isPending } = useWriteContract();
   const { isSuccess } = useWaitForTransactionReceipt({ hash: tx });
-  if (isSuccess) return <div className="bg-white rounded-2xl p-6 text-center shadow-sm"><p className="text-3xl mb-2">✓</p><p className="text-amber-700 font-semibold text-lg">Merchant registered!</p><p className="text-xs text-gray-400 mt-1">Reload to see your QR code and dashboard.</p></div>;
+  if (isSuccess) return <div className="bg-white rounded-2xl p-6 text-center shadow-sm"><p className="text-3xl mb-2">✓</p><p className="text-amber-700 font-semibold text-lg">You&apos;re live!</p><p className="text-xs text-gray-400 mt-1">Reload to see your QR code and sales dashboard.</p><button onClick={()=>window.location.reload()} className="mt-3 px-4 py-2 bg-amber-600 text-white rounded-xl text-sm font-medium">Open dashboard</button></div>;
   return (
     <div className="bg-white rounded-2xl p-5 shadow-sm space-y-4">
       <p className="font-semibold text-gray-800">Register your business</p>

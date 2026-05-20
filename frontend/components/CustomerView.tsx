@@ -29,7 +29,14 @@ export default function CustomerView() {
   function executePay() { if (!contractAddress||!mId) return; pay({ address:contractAddress, abi:SOKO_SCAN_ABI, functionName:"pay", args:[mId,parsedAmount,BigInt(pointsToRedeem)] }); }
   function handlePay() { if (!contractAddress||!mId) return; if (!allowance||allowance<parsedAmount) { approve({ address:cUSD, abi:ERC20_ABI, functionName:"approve", args:[contractAddress,parsedAmount] }); } else { executePay(); } }
   if (approveOk) executePay();
-  if (payOk) return <div className="bg-white rounded-2xl p-6 text-center shadow-sm"><p className="text-3xl mb-2">✓</p><p className="font-semibold text-amber-700 text-lg mb-1">Payment sent!</p><p className="text-xs text-gray-500">You earned {pointsEarned} SokoPoints.</p></div>;
+  if (payOk) return (
+    <div className="bg-white rounded-2xl p-6 text-center shadow-sm space-y-2">
+      <p className="text-4xl">✓</p>
+      <p className="font-semibold text-amber-700 text-lg">Payment sent!</p>
+      <p className="text-xs text-gray-500">You earned <span className="font-medium text-amber-600">{pointsEarned} SokoPoints</span> at {merchant?.name}.</p>
+      <p className="text-xs text-gray-400">1 SokoPoint = 0.001 cUSD off your next purchase.</p>
+    </div>
+  );
   return (
     <div className="space-y-4"><div className="bg-white rounded-2xl p-4 shadow-sm space-y-3">
       <div><label className="block text-xs font-medium text-gray-600 mb-1">Merchant ID</label><input value={merchantId} onChange={(e)=>setMerchantId(e.target.value)} placeholder="From merchant's QR or link" className="w-full border border-gray-200 rounded-xl px-3 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500" /></div>

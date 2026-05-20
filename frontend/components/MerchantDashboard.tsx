@@ -13,14 +13,18 @@ export default function MerchantDashboard() {
   const { data: merchant } = useReadContract({ address: contractAddress, abi: SOKO_SCAN_ABI, functionName: "getMerchant", args: merchantId !== undefined ? [merchantId] : undefined });
   if (!merchant) return null;
   const totalCUSD = Number(formatUnits(merchant.totalReceived, 18)).toFixed(2);
+  const txCount = Number(merchant.txCount);
+  const avgTx = txCount > 0 ? (Number(formatUnits(merchant.totalReceived, 18)) / txCount).toFixed(2) : "0.00";
   return (
     <div className="space-y-3">
       <h2 className="font-semibold text-gray-800">Sales Overview</h2>
       <div className="grid grid-cols-2 gap-3">
         <StatCard label="Total earned" value={`${totalCUSD} cUSD`} />
         <StatCard label="Transactions" value={merchant.txCount.toString()} />
+        <StatCard label="Avg transaction" value={`${avgTx} cUSD`} />
         <StatCard label="Points rate" value={`${merchant.pointsPerCUSD} pts/cUSD`} />
         <StatCard label="Status" value={merchant.active ? "Active" : "Inactive"} />
+        <StatCard label="Merchant ID" value={`#${merchantId?.toString()}`} />
       </div>
     </div>
   );

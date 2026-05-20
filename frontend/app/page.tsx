@@ -8,6 +8,7 @@ import PaymentQR from "@/components/PaymentQR";
 import CustomerView from "@/components/CustomerView";
 import PlatformStats from "@/components/PlatformStats";
 import NetworkGuard from "@/components/NetworkGuard";
+import { truncateAddress } from "@/lib/format";
 type Mode = "merchant"|"customer";
 
 function Landing() {
@@ -44,7 +45,7 @@ export default function Home() {
   return (
     <div className="min-h-screen max-w-md mx-auto px-4 pb-8">
       <NetworkGuard />
-      <header className="pt-6 pb-4"><h1 className="text-2xl font-bold text-amber-700">SokoScan</h1><p className="text-xs text-gray-400">Merchant payments + loyalty on Celo</p></header>
+      <header className="pt-6 pb-4 flex items-start justify-between"><div><h1 className="text-2xl font-bold text-amber-700">SokoScan</h1><p className="text-xs text-gray-400">Merchant payments + loyalty on Celo</p></div>{address&&<span className="text-xs text-gray-400 font-mono mt-1">{truncateAddress(address)}</span>}</header>
       <PlatformStats />
       <div className="flex bg-white rounded-xl p-1 shadow-sm mb-5 gap-1">{(["merchant","customer"] as Mode[]).map((m)=>(<button key={m} onClick={()=>setMode(m)} className={`flex-1 py-2 text-xs font-medium rounded-lg capitalize transition-colors ${mode===m?"bg-amber-600 text-white":"text-gray-500"}`}>{m==="merchant"?"I'm a Merchant":"I'm a Customer"}</button>))}</div>
       {mode==="merchant" && !isLoading && (<>{isMerchant ? (<><PaymentQR /><div className="mt-4"><MerchantDashboard /></div></>) : <MerchantRegister />}</>)}

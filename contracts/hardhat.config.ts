@@ -3,6 +3,9 @@ import "@nomicfoundation/hardhat-toolbox";
 import * as dotenv from "dotenv";
 dotenv.config();
 
+// Usage: npx hardhat deploy:celo --network celo
+//        npx hardhat deploy:celo --network alfajores
+
 const config: HardhatUserConfig = {
   solidity: { version: "0.8.20", settings: { optimizer: { enabled: true, runs: 200 } } },
   networks: {

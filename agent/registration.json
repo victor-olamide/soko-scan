@@ -1,0 +1,20 @@
+{
+  "type": "https://eips.ethereum.org/EIPS/eip-8004#registration-v1",
+  "name": "SokoAgent",
+  "description": "AI agent embedded in SokoScan — a QR-based merchant payment and loyalty platform on Celo for informal traders using MiniPay. Powered by Claude (Anthropic), SokoAgent reads live onchain data from the SokoScan contract to help merchants understand their sales, let customers check loyalty points, and answer questions about the platform in natural language.",
+  "image": "https://sokoscan.vercel.app/icon-192.png",
+  "endpoints": [
+    {
+      "name": "A2A",
+      "endpoint": "https://sokoscan.vercel.app/api/agent",
+      "version": "0.3.0"
+    },
+    {
+      "name": "wallet",
+      "address": "0x28738A7bCd3b98b107be45B6700421155Dfcb6dA",
+      "chainId": 42220
+    }
+  ],
+  "registrations": [],
+  "supportedTrust": ["reputation"]
+}

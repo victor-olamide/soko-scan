@@ -23,6 +23,9 @@ export const metadata: Metadata = {
   keywords: ["celo", "minipay", "payments", "loyalty", "cusd", "merchant"],
   manifest: "/manifest.json",
   appleWebApp: { capable: true, statusBarStyle: "default", title: "SokoScan" },
+  other: {
+    "talentapp:project_verification": "f61bcae099afaa69e984101083156d6578b63ed7e383c3a2859b7b5547d35b873fec316903973da898af515b7d4940636d8384c8cbdb9126a20ed01624b2aab1",
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

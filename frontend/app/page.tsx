@@ -8,6 +8,7 @@ import PaymentQR from "@/components/PaymentQR";
 import CustomerView from "@/components/CustomerView";
 import PlatformStats from "@/components/PlatformStats";
 import NetworkGuard from "@/components/NetworkGuard";
+import AgentChat from "@/components/AgentChat";
 import AppFooter from "@/components/AppFooter";
 import { truncateAddress } from "@/lib/format";
 type Mode = "merchant"|"customer";
@@ -53,6 +54,7 @@ export default function Home() {
       {mode==="merchant" && !isLoading && (<>{isMerchant ? (<><PaymentQR /><div className="mt-4"><MerchantDashboard /></div></>) : <MerchantRegister />}</>)}
       {mode==="customer" && <CustomerView />}
       <AppFooter />
+      <AgentChat />
     </div>
   );
 }
